@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Our Places Library</title>
+<title>Our Places — Anniversary Edition</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#4f342b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -44,17 +44,53 @@ main{padding:14px} .screen{display:none} .screen.active{display:block}
 .hidden{display:none!important} .small{font-size:12px;color:var(--muted)} .progress{height:10px;background:var(--soft);border-radius:999px;overflow:hidden} .progress span{display:block;height:100%;width:0;background:var(--good)}
 @media(max-width:560px){.grid{grid-template-columns:1fr} .photo-grid{grid-template-columns:1fr 1fr} .event{grid-template-columns:56px 1fr}}
 @media(max-width:390px){.photo-grid{grid-template-columns:1fr}}
+
+body.gift-mode .planner-control,
+body.gift-mode [data-screen="settings"],
+body.gift-mode [data-screen="gallery"],
+body.gift-mode .topnav {display:none!important}
+body.gift-mode .bottom-inner {grid-template-columns:repeat(2,1fr)}
+body.gift-mode .bottom [data-screen="gallery"],
+body.gift-mode .bottom [data-screen="settings"] {display:none!important}
+body.gift-mode .hero {min-height:38vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:30px}
+body.gift-mode .hero h1 {font-size:40px;letter-spacing:.02em}
+body.gift-mode .hero p {font-family:Georgia,serif;font-size:17px;line-height:1.5;max-width:620px}
+body.gift-mode #library .section-title {display:none}
+body.gift-mode .trip-grid {grid-template-columns:1fr}
+body.gift-mode .trip-card {border-radius:24px;box-shadow:0 18px 45px rgba(38,28,22,.12)}
+body.gift-mode .trip-card .cover {height:300px}
+body.gift-mode .trip-card .body {padding:22px}
+body.gift-mode .trip-card .body h3 {font-family:Georgia,serif;font-size:28px}
+body.gift-mode .trip-card .actions [data-delete] {display:none!important}
+body.gift-mode .trip-card .actions button {padding:12px 16px}
+body.gift-mode .trip-card .tag {background:rgba(255,255,255,.82)}
+body.gift-mode .gift-dedication {display:block}
+.gift-dedication {display:none;background:linear-gradient(135deg,#fffaf3,#eee1d4);border:1px solid var(--line);border-radius:24px;padding:28px;margin-bottom:18px;text-align:center}
+.gift-dedication h2 {font-family:Georgia,serif;font-size:30px;margin:0 0 12px}
+.gift-dedication p {font-family:Georgia,serif;font-size:17px;line-height:1.7;color:#4c4038;margin:0}
+.gift-dedication .small-line {font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:12px}
+.book-spine {display:flex;align-items:center;gap:14px;margin:14px 0;padding:14px;border-radius:16px;background:var(--soft)}
+.book-spine::before {content:"I";display:flex;align-items:center;justify-content:center;width:44px;height:62px;border-radius:5px;background:linear-gradient(180deg,#65483b,#4f342b);color:#fff;font-family:Georgia,serif;font-size:24px;box-shadow:inset -5px 0 0 rgba(0,0,0,.12)}
+.gift-close {display:none}
+body.gift-mode .gift-close {display:inline-flex}
+body.gift-mode #giftModeBtn {display:none}
+@media(min-width:700px){
+  body.gift-mode .trip-card .cover {height:380px}
+  body.gift-mode .gift-dedication {padding:38px 60px}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <header class="hero">
   <h1>Our Places</h1>
-  <p>Your private library of journeys, photographs and memories</p>
+  <p>A collection of the places that became part of our story</p>
   <div class="hero-actions">
-    <button id="newTripBtn" class="btn secondary">Add journey</button>
-    <button id="exportBtn" class="btn secondary">Export backup</button>
-    <label class="btn secondary" for="importFile">Import backup</label>
+    <button id="giftModeBtn" class="btn secondary">Open gift mode</button>
+    <button id="newTripBtn" class="btn secondary planner-control">Add journey</button>
+    <button id="exportBtn" class="btn secondary planner-control">Export backup</button>
+    <label class="btn secondary planner-control" for="importFile">Import backup</label>
     <input id="importFile" type="file" accept="application/json" class="hidden">
   </div>
   <p id="installHint" class="small" style="color:#f2e9df;margin-top:10px">Open once online to enable offline use.</p>
@@ -70,7 +106,25 @@ main{padding:14px} .screen{display:none} .screen.active{display:block}
 <main>
 <section id="library" class="screen active">
   <h2 class="section-title">Journey index</h2>
-  <div id="tripList" class="trip-grid"></div>
+  <div class="gift-dedication">
+      <div class="small-line">For my beautiful wife</div>
+      <h2>Our Places</h2>
+      <p>
+        This began as a journey to a quiet village in the mountains.<br>
+        It became the first volume in the story of all the places we will share together.
+      </p>
+      <div class="book-spine">
+        <div style="text-align:left">
+          <strong>Volume I</strong><br>
+          <span>Santo Stefano di Sessanio · August 2026</span>
+        </div>
+      </div>
+      <p style="margin-top:18px">
+        Every journey we add will become another chapter in our life together.
+      </p>
+      <button id="closeGiftBtn" class="btn gift-close" style="margin-top:22px">Return to planner</button>
+    </div>
+    <div id="tripList" class="trip-grid"></div>
 </section>
 
 <section id="trip" class="screen">
@@ -86,7 +140,7 @@ main{padding:14px} .screen{display:none} .screen.active{display:block}
 </section>
 
 <section id="settings" class="screen">
-  <h2 class="section-title">Backup and help</h2>
+  <h2 class="section-title">Planner settings</h2>
   <div class="card">
     <h3>Protect the collection</h3>
     <p>Photographs and notes are stored locally on this device. Export a backup regularly, particularly after adding photographs.</p>
@@ -208,7 +262,7 @@ async function renderTrips(){
    const cover=photos[0]?.dataUrl;
    const el=document.createElement('article');el.className='card trip-card';
    el.innerHTML=`<div class="cover" style="${cover?`background-image:url('${cover}')`:''}"><div><span class="tag">${trip.builtIn?'Volume I':'Journey'}</span></div></div>
-   <div class="body"><h3>${escapeHTML(trip.title)}</h3><p>${escapeHTML(trip.subtitle||'')}</p><div class="stats"><span>${formatDates(trip.start,trip.end)}</span><span>${photos.length} photos</span></div><div class="actions"><button data-open="${trip.id}">Open</button>${trip.builtIn?'':`<button data-delete="${trip.id}">Delete</button>`}</div></div>`;
+   <div class="body"><h3>${escapeHTML(trip.title)}</h3><p>${escapeHTML(trip.subtitle||'')}</p><div class="stats"><span>${formatDates(trip.start,trip.end)}</span><span>${photos.length} photos</span></div><div class="actions"><button data-open="${trip.id}">Open volume</button>${trip.builtIn?'':`<button data-delete="${trip.id}">Delete</button>`}</div></div>`;
    list.appendChild(el);
  }
  list.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',async()=>{currentTripId=b.dataset.open;await renderTrip();showScreen('trip')}));
@@ -305,6 +359,25 @@ let deferredPrompt;const hint=document.getElementById('installHint');
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;hint.textContent='This app is ready to install.'});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').then(()=>hint.textContent='Offline app content is ready.').catch(()=>hint.textContent='Open once online to enable offline access.'));
 const ios=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=navigator.standalone===true||matchMedia('(display-mode:standalone)').matches;if(ios&&!standalone)hint.textContent='Safari: Share → Add to Home Screen';
+
+
+const GIFT_KEY='ourPlacesGiftMode';
+const giftBtn=document.getElementById('giftModeBtn');
+const closeGiftBtn=document.getElementById('closeGiftBtn');
+
+function applyGiftMode(active){
+  document.body.classList.toggle('gift-mode',active);
+  localStorage.setItem(GIFT_KEY,active?'1':'0');
+  if(active){
+    showScreen('library');
+    document.querySelector('.hero p').textContent='A collection of the places that became part of our story';
+  }else{
+    document.querySelector('.hero p').textContent='Your private library of journeys, photographs and memories';
+  }
+}
+giftBtn.addEventListener('click',()=>applyGiftMode(true));
+closeGiftBtn.addEventListener('click',()=>applyGiftMode(false));
+if(localStorage.getItem(GIFT_KEY)==='1') applyGiftMode(true);
 
 (async()=>{await openDB();await ensureDefault();await renderTrips();await renderTrip();await renderGallery();await updateStorage();})();
 </script>
