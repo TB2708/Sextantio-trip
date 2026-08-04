@@ -1,7 +1,7 @@
 {
-  "name": "Our Places Companion",
+  "name": "Our Places Library",
   "short_name": "Our Places",
-  "description": "Private Santo Stefano itinerary and travel companion.",
+  "description": "A private travel library with itineraries, photographs and memories.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
