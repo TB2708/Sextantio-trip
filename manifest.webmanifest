@@ -1,7 +1,7 @@
 {
-  "name": "Our Places Library",
-  "short_name": "Our Places",
-  "description": "A private travel library with itineraries, photographs and memories.",
+  "name": "Our Places Planner",
+  "short_name": "Planner",
+  "description": "Private hidden itinerary, maps and travel checklists.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
